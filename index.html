@@ -380,6 +380,176 @@
       }
     }
 
+  
+    /* 最新調整：移除時間、放大發票文字與上方答題資訊 */
+    .topbar{
+      grid-template-columns:1.18fr 78px 1.18fr;
+      gap:10px;
+      padding:7px 2px 6px;
+    }
+    .stat{
+      padding:10px 12px;
+      border-radius:17px;
+    }
+    .stat small{
+      display:block !important;
+      font-size:12px;
+      line-height:1.1;
+    }
+    .stat strong{
+      font-size:21px;
+      line-height:1.1;
+    }
+    .timer{
+      width:74px;
+      height:74px;
+    }
+    .timer span{
+      font-size:23px;
+    }
+
+    .ticket-head{
+      font-size:13px;
+      letter-spacing:1px;
+      margin-bottom:3px;
+    }
+    .ticket-number{
+      font-size:clamp(28px,8vw,36px);
+      line-height:1;
+      margin:2px 0 4px;
+    }
+    .ticket-foot{
+      font-size:11px;
+      padding-top:4px;
+      gap:6px;
+    }
+    .ticket-amount b{
+      font-size:16px;
+    }
+
+    @media (max-height:760px){
+      .topbar{
+        grid-template-columns:1.15fr 68px 1.15fr;
+      }
+      .stat{
+        padding:8px 10px;
+      }
+      .stat small{
+        font-size:11px;
+      }
+      .stat strong{
+        font-size:19px;
+      }
+      .timer{
+        width:66px;
+        height:66px;
+      }
+      .timer span{
+        font-size:20px;
+      }
+      .ticket-head{
+        font-size:12px;
+      }
+      .ticket-number{
+        font-size:27px;
+      }
+      .ticket-foot{
+        font-size:10px;
+      }
+      .ticket-amount b{
+        font-size:14px;
+      }
+    }
+
+    @media (max-height:700px){
+      .stat small{
+        display:block !important;
+        font-size:10px;
+      }
+      .stat strong{
+        font-size:17px;
+      }
+      .ticket-number{
+        font-size:25px;
+      }
+      .ticket-foot{
+        font-size:9px;
+      }
+    }
+
+  
+    /* 最新需求：移除日期、金額置中、題目文字放大 */
+    .paper{
+      padding:7px 10px 6px;
+    }
+    .ticket-head{
+      font-size:15px;
+      line-height:1.05;
+      margin-bottom:4px;
+      letter-spacing:1.1px;
+    }
+    .ticket-rule{
+      margin-bottom:2px;
+    }
+    .ticket-number{
+      font-size:clamp(32px,9vw,42px);
+      line-height:1;
+      margin:3px 0 5px;
+      letter-spacing:.2px;
+    }
+    .ticket-foot{
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      text-align:center;
+      border-top:2px dotted #bfa77f;
+      padding-top:5px;
+      font-size:14px;
+      font-weight:900;
+    }
+    .ticket-date{
+      display:none !important;
+    }
+    .ticket-amount{
+      width:100%;
+      text-align:center;
+      overflow:visible;
+      text-overflow:clip;
+    }
+    .ticket-amount b{
+      font-size:20px;
+    }
+
+    @media (max-height:760px){
+      .ticket-head{
+        font-size:13px;
+      }
+      .ticket-number{
+        font-size:30px;
+      }
+      .ticket-foot{
+        font-size:12px;
+      }
+      .ticket-amount b{
+        font-size:17px;
+      }
+    }
+
+    @media (max-height:700px){
+      .ticket-head{
+        font-size:12px;
+      }
+      .ticket-number{
+        font-size:27px;
+      }
+      .ticket-foot{
+        font-size:11px;
+      }
+      .ticket-amount b{
+        font-size:15px;
+      }
+    }
+
   </style>
 </head>
 <body>
@@ -587,7 +757,6 @@
           <div class="ticket-rule"></div>
           <div class="ticket-number">${formatNumber(ticket.number)}</div>
           <div class="ticket-foot">
-            <span class="ticket-date">2026/07/16&nbsp;&nbsp;09:32</span>
             <span class="ticket-amount">金額 <b>${amount}</b> 元</span>
           </div>
           <div class="prize-reveal">${formatMoney(ticket.prize)}</div>
