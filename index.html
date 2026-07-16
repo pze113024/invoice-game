@@ -639,6 +639,282 @@
       }
     }
 
+  
+    /* 手遊式結算畫面：完全不捲動，按鈕固定底部 */
+    #resultScreen{
+      height:var(--app-height,100dvh);
+      min-height:0;
+      overflow:hidden;
+      padding:0;
+      color:#fff;
+      background:
+        radial-gradient(circle at 50% 25%,rgba(38,115,220,.72),transparent 38%),
+        repeating-conic-gradient(from 0deg at 50% 18%,rgba(255,255,255,.035) 0 8deg,transparent 8deg 17deg),
+        linear-gradient(180deg,#073477 0%,#031b4d 62%,#041638 100%);
+      position:relative;
+      isolation:isolate;
+      -webkit-text-size-adjust:100%;
+      text-size-adjust:100%;
+    }
+    #resultScreen.active{
+      display:grid;
+      grid-template-rows:minmax(0,1fr) auto;
+    }
+    #resultScreen::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      z-index:-1;
+      pointer-events:none;
+      background:
+        radial-gradient(circle at 9% 18%,#ffbf24 0 4px,transparent 5px),
+        radial-gradient(circle at 90% 25%,#ff6b57 0 5px,transparent 6px),
+        radial-gradient(circle at 14% 72%,#36b7ff 0 4px,transparent 5px),
+        radial-gradient(circle at 88% 77%,#ffca30 0 5px,transparent 6px);
+      opacity:.9;
+    }
+    .result-content{
+      min-height:0;
+      width:100%;
+      max-width:520px;
+      margin:0 auto;
+      padding:clamp(12px,2.2vh,24px) 14px 8px;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      gap:clamp(5px,1vh,11px);
+      overflow:hidden;
+      position:relative;
+    }
+    .result-celebration{
+      position:absolute;
+      inset:1% 4% auto;
+      height:20%;
+      pointer-events:none;
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-start;
+      color:#ffd146;
+      font-size:clamp(14px,4vw,23px);
+      opacity:.95;
+    }
+    .result-celebration span:nth-child(2){color:#ff63bd;transform:translateY(20px) rotate(24deg)}
+    .result-celebration span:nth-child(3){color:#5dd5ff;transform:translateY(4px)}
+    .result-celebration span:nth-child(4){color:#ff9a35;transform:translateY(25px) rotate(17deg)}
+    .result-title{
+      font-size:clamp(29px,7.5vw,45px);
+      line-height:.98;
+      font-weight:1000;
+      letter-spacing:1px;
+      color:#ffe467;
+      text-shadow:0 3px 0 #9a3f05,0 7px 18px rgba(0,0,0,.42);
+      white-space:nowrap;
+    }
+    #resultScreen .rank{
+      margin:0;
+      color:#fff8dd;
+      font-size:clamp(21px,5.8vw,32px);
+      line-height:1;
+      text-shadow:0 2px 0 #653009;
+      white-space:nowrap;
+    }
+    .result-board{
+      width:100%;
+      min-height:0;
+      background:linear-gradient(180deg,#fff9e9,#ffedc2);
+      border:3px solid #f6c45f;
+      border-radius:clamp(18px,5vw,28px);
+      padding:clamp(28px,4.2vh,43px) clamp(10px,3vw,18px) clamp(10px,1.8vh,18px);
+      box-shadow:0 10px 0 #b96b19,0 18px 34px rgba(0,0,0,.35);
+      position:relative;
+      display:flex;
+      flex-direction:column;
+      gap:clamp(7px,1.2vh,13px);
+      color:#17213c;
+      overflow:visible;
+    }
+    .prize-ribbon{
+      position:absolute;
+      top:-16px;
+      left:8%;
+      right:8%;
+      height:clamp(35px,5.3vh,48px);
+      display:grid;
+      place-items:center;
+      border-radius:9px;
+      background:linear-gradient(180deg,#ff5b39,#df260f);
+      border:2px solid #a92411;
+      color:#fff;
+      font-size:clamp(15px,4.2vw,22px);
+      font-weight:1000;
+      letter-spacing:.5px;
+      box-shadow:0 5px 0 #8d260f;
+      white-space:nowrap;
+    }
+    .final-prize{
+      min-height:clamp(72px,11vh,112px);
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      padding:3px 4px;
+      border-radius:18px;
+      background:linear-gradient(180deg,#fffef7,#fff1ba);
+      color:#f5a500;
+      font-size:clamp(39px,11.5vw,68px);
+      font-weight:1000;
+      line-height:.9;
+      letter-spacing:-2px;
+      text-shadow:0 3px 0 #8f3f00,0 5px 6px rgba(110,50,0,.2);
+      box-shadow:inset 0 0 0 2px rgba(255,200,70,.48);
+      white-space:nowrap;
+      overflow:hidden;
+    }
+    #resultScreen .result-grid{
+      display:grid;
+      grid-template-columns:repeat(2,minmax(0,1fr));
+      gap:clamp(6px,1.2vh,11px);
+    }
+    #resultScreen .result-item{
+      min-width:0;
+      min-height:clamp(67px,10vh,99px);
+      padding:clamp(6px,1.1vh,11px) 5px;
+      border-radius:clamp(12px,3vw,17px);
+      display:grid;
+      grid-template-columns:auto 1fr;
+      grid-template-rows:auto auto;
+      align-items:center;
+      column-gap:5px;
+      background:linear-gradient(145deg,#e4f5ff,#c9eaff);
+      border:2px solid #9ccff1;
+    }
+    #resultScreen .result-item:nth-child(2){background:linear-gradient(145deg,#f2ffdd,#dff4ac);border-color:#b5d878}
+    #resultScreen .result-item:nth-child(3){background:linear-gradient(145deg,#f2eaff,#dfd1ff);border-color:#c1abe9}
+    #resultScreen .result-item:nth-child(4){background:linear-gradient(145deg,#fff1cf,#ffd98a);border-color:#e7b64d}
+    .result-icon{
+      grid-row:1/3;
+      font-size:clamp(22px,6vw,37px);
+      line-height:1;
+    }
+    #resultScreen .result-item small{
+      margin:0;
+      align-self:end;
+      color:#26304a;
+      font-size:clamp(10px,2.8vw,14px);
+      line-height:1;
+      font-weight:900;
+      white-space:nowrap;
+    }
+    #resultScreen .result-item strong{
+      align-self:start;
+      color:#174da2;
+      font-size:clamp(23px,6.2vw,37px);
+      line-height:1;
+      white-space:nowrap;
+      overflow:hidden;
+    }
+    #resultScreen .result-item:nth-child(2) strong{color:#21721d}
+    #resultScreen .result-item:nth-child(3) strong{color:#6844ad}
+    #resultScreen .result-item:nth-child(4) strong{color:#d34c13}
+    #resultScreen .result-item em{
+      font-style:normal;
+      font-size:.38em;
+      margin-left:2px;
+    }
+    .bonus-row{
+      min-height:clamp(38px,5.8vh,51px);
+      padding:5px 10px;
+      border-radius:14px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:8px;
+      background:linear-gradient(180deg,#fff0ad,#ffd96a);
+      border:2px solid #e7b33d;
+      color:#5a2a08;
+      font-size:clamp(12px,3.3vw,17px);
+      font-weight:1000;
+      white-space:nowrap;
+    }
+    .bonus-row strong{
+      color:#eb4b15;
+      font-size:clamp(18px,5vw,28px);
+      overflow:hidden;
+      text-overflow:ellipsis;
+    }
+    .result-action{
+      flex:none;
+      width:100%;
+      padding:9px 14px calc(10px + env(safe-area-inset-bottom));
+      background:linear-gradient(180deg,rgba(3,22,56,0),#031638 24%);
+      display:flex;
+      justify-content:center;
+      position:relative;
+      z-index:5;
+    }
+    .result-restart{
+      width:min(100%,440px);
+      min-height:clamp(54px,8vh,70px);
+      border:3px solid #8e4a00;
+      border-radius:clamp(17px,5vw,25px);
+      background:linear-gradient(180deg,#ffd83f,#f49a00);
+      box-shadow:0 7px 0 #8e4900,0 12px 22px rgba(0,0,0,.38),inset 0 2px rgba(255,255,255,.75);
+      color:#582500;
+      font-size:clamp(21px,6vw,32px);
+      font-weight:1000;
+      cursor:pointer;
+      white-space:nowrap;
+    }
+    .result-restart span{
+      display:inline-block;
+      margin-right:8px;
+      font-size:1.15em;
+    }
+    .result-restart:active{
+      transform:translateY(5px);
+      box-shadow:0 2px 0 #8e4900,0 6px 14px rgba(0,0,0,.35);
+    }
+
+    @media (max-height:740px){
+      .result-content{padding-top:8px;gap:4px}
+      .result-title{font-size:27px}
+      #resultScreen .rank{font-size:20px}
+      .result-board{padding-top:25px;gap:5px;border-width:2px}
+      .prize-ribbon{top:-13px;height:34px;font-size:14px}
+      .final-prize{min-height:59px;font-size:36px}
+      #resultScreen .result-item{min-height:54px;padding:4px}
+      .result-icon{font-size:22px}
+      #resultScreen .result-item small{font-size:9px}
+      #resultScreen .result-item strong{font-size:21px}
+      .bonus-row{min-height:33px;font-size:11px;padding:3px 8px}
+      .bonus-row strong{font-size:17px}
+      .result-action{padding-top:6px}
+      .result-restart{min-height:50px;font-size:20px}
+    }
+    @media (max-height:620px){
+      .result-celebration{display:none}
+      .result-title{font-size:24px}
+      #resultScreen .rank{font-size:17px}
+      .result-board{padding:22px 8px 6px;gap:4px}
+      .prize-ribbon{height:30px;font-size:12px}
+      .final-prize{min-height:48px;font-size:31px}
+      #resultScreen .result-grid{gap:4px}
+      #resultScreen .result-item{min-height:45px;border-width:1px}
+      .result-icon{font-size:18px}
+      #resultScreen .result-item small{font-size:8px}
+      #resultScreen .result-item strong{font-size:18px}
+      .bonus-row{min-height:28px;font-size:9px}
+      .bonus-row strong{font-size:14px}
+      .result-restart{min-height:45px;font-size:18px}
+    }
+    @media (max-width:340px){
+      .result-content{padding-left:8px;padding-right:8px}
+      .final-prize{font-size:34px}
+      .result-icon{display:none}
+      #resultScreen .result-item{grid-template-columns:1fr;text-align:center}
+      #resultScreen .result-item small,#resultScreen .result-item strong{grid-column:1}
+    }
+
   </style>
 </head>
 <body>
@@ -680,21 +956,54 @@
       <div id="tickets" class="tickets"></div>
     </section>
 
-    <section id="resultScreen" class="screen center">
-      <div class="logo">🏆</div>
-      <h1>對獎完成！</h1>
-      <div id="rank" class="rank">發票神探</div>
-      <div class="result-card">
-        <div class="result-grid">
-          <div class="result-item"><small>完成題數</small><strong id="finalAnswered">0</strong></div>
-          <div class="result-item"><small>答對題數</small><strong id="finalCorrect">0</strong></div>
-          <div class="result-item"><small>正確率</small><strong id="finalAccuracy">0%</strong></div>
-          <div class="result-item"><small>最高連擊</small><strong id="finalCombo">0</strong></div>
-          <div class="result-item"><small>連擊加碼獎金</small><strong id="finalBonus">$0</strong></div>
-          <div class="result-item total"><small>累積虛擬中獎金額</small><strong id="finalPrize">$0</strong></div>
+    <section id="resultScreen" class="screen">
+      <div class="result-content">
+        <div class="result-celebration" aria-hidden="true">
+          <span>✦</span><span>●</span><span>✧</span><span>◆</span><span>✦</span>
+        </div>
+
+        <div class="result-title">挑戰完成！</div>
+        <div id="rank" class="rank">🏆 發票神探</div>
+
+        <div class="result-board">
+          <div class="prize-ribbon">本局累積中獎金額</div>
+          <div id="finalPrize" class="final-prize">$0</div>
+
+          <div class="result-grid">
+            <div class="result-item">
+              <span class="result-icon">📋</span>
+              <small>完成題數</small>
+              <strong><span id="finalAnswered">0</span><em>題</em></strong>
+            </div>
+            <div class="result-item">
+              <span class="result-icon">🎯</span>
+              <small>答對題數</small>
+              <strong><span id="finalCorrect">0</span><em>題</em></strong>
+            </div>
+            <div class="result-item">
+              <span class="result-icon">◔</span>
+              <small>正確率</small>
+              <strong id="finalAccuracy">0%</strong>
+            </div>
+            <div class="result-item">
+              <span class="result-icon">🔥</span>
+              <small>最高連擊</small>
+              <strong><span id="finalCombo">0</span><em>連擊</em></strong>
+            </div>
+          </div>
+
+          <div class="bonus-row">
+            <span>⭐ 連擊加碼獎金</span>
+            <strong id="finalBonus">+$0</strong>
+          </div>
         </div>
       </div>
-      <button id="restartBtn" class="primary">再玩一次</button>
+
+      <div class="result-action">
+        <button id="restartBtn" class="result-restart">
+          <span aria-hidden="true">↻</span> 再玩一次
+        </button>
+      </div>
     </section>
   </main>
 </div>
@@ -1012,7 +1321,7 @@
     $("finalCorrect").textContent = state.correct;
     $("finalAccuracy").textContent = accuracy.toFixed(1) + "%";
     $("finalCombo").textContent = state.maxCombo;
-    $("finalBonus").textContent = formatMoney(state.comboBonusTotal);
+    $("finalBonus").textContent = "+" + formatMoney(state.comboBonusTotal);
     $("finalPrize").textContent = formatMoney(state.totalPrize);
     $("rank").textContent = rankName(accuracy);
     showScreen("result");
