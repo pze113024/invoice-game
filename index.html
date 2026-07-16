@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="theme-color" content="#fff7e8" />
-  <title>發票神探｜2分鐘對獎挑戰</title>
+  <title>發票神探｜1分鐘對獎挑戰</title>
   <style>
     :root{
       --ink:#283044;
@@ -558,12 +558,12 @@
     <section id="startScreen" class="screen active center">
       <div class="logo">🧾</div>
       <h1>發票神探</h1>
-      <div class="subtitle">2分鐘對獎挑戰</div>
+      <div class="subtitle">1分鐘對獎挑戰</div>
       <p class="intro">重溫一張一張核對發票號碼的期待感。每題從三張發票中，選出獎金最高的一張！</p>
       <div class="rule-card">
-        <div><b>⏱️</b><span>限時120秒，時間到立即結算。</span></div>
+        <div><b>⏱️</b><span>限時60秒，時間到立即結算。</span></div>
         <div><b>🔎</b><span>每題至少一張中獎，且只有一張獎金最高。</span></div>
-        <div><b>🔥</b><span>連續答對可累積連擊，難度會逐步提高。</span></div>
+        <div><b>🔥</b><span>連續答對可累積連擊；連擊越高，獎金加碼越多。</span></div>
         <div><b>💰</b><span>獎金依頭獎末碼規則：20萬、4萬、1萬、4千、1千、200元。</span></div>
       </div>
       <button id="startBtn" class="primary">開始對獎</button>
@@ -573,7 +573,7 @@
     <section id="gameScreen" class="screen">
       <div class="topbar">
         <div class="stat"><small>完成／答對</small><strong><span id="answered">0</span>／<span id="correct">0</span></strong></div>
-        <div id="timerRing" class="timer"><span id="time">120</span></div>
+        <div id="timerRing" class="timer"><span id="time">60</span></div>
         <div class="stat right"><small>目前連擊</small><strong>🔥 <span id="combo">0</span></strong></div>
       </div>
       <div class="progress"><i id="timeBar"></i></div>
@@ -597,6 +597,7 @@
           <div class="result-item"><small>答對題數</small><strong id="finalCorrect">0</strong></div>
           <div class="result-item"><small>正確率</small><strong id="finalAccuracy">0%</strong></div>
           <div class="result-item"><small>最高連擊</small><strong id="finalCombo">0</strong></div>
+          <div class="result-item"><small>連擊加碼獎金</small><strong id="finalBonus">$0</strong></div>
           <div class="result-item total"><small>累積虛擬中獎金額</small><strong id="finalPrize">$0</strong></div>
         </div>
       </div>
@@ -608,7 +609,7 @@
 
 <script>
 (() => {
-  const GAME_SECONDS = 120;
+  const GAME_SECONDS = 60;
   const PREFIX = "AB";
   const PRIZES = [
     { digits: 8, amount: 200000 },
@@ -639,6 +640,7 @@
       combo: 0,
       maxCombo: 0,
       totalPrize: 0,
+      comboBonusTotal: 0,
       winningDigits: "",
       tickets: [],
       bestIndex: -1
@@ -673,18 +675,29 @@
 
   function makeNumberForMatch(winner, digits) {
     if (digits === 8) return winner;
+
     if (digits === 0) {
       let n;
-      do { n = randomDigits(8); } while (getPrize(n, winner) !== 0);
+      do {
+        n = randomDigits(8);
+      } while (getPrize(n, winner) !== 0);
       return n;
     }
 
+    // 保留指定末碼，並強制「再前一碼」不同，
+    // 確保只會中指定獎項，不會意外升級成更高獎金。
     const suffix = winner.slice(-digits);
     const prefixLength = 8 - digits;
+    const winnerPrefix = winner.slice(0, prefixLength);
+
     let head;
     do {
       head = randomDigits(prefixLength);
-    } while (head === winner.slice(0, prefixLength));
+    } while (
+      head === winnerPrefix ||
+      head.slice(-1) === winnerPrefix.slice(-1)
+    );
+
     return head + suffix;
   }
 
@@ -714,21 +727,34 @@
 
   function generateQuestion() {
     locked = false;
-    state.winningDigits = randomDigits(8);
-    const pattern = shuffle(choosePrizePattern(difficultyLevel()));
-    const usedNumbers = new Set();
 
-    state.tickets = pattern.map(matchDigits => {
-      let number;
-      do {
-        number = makeNumberForMatch(state.winningDigits, matchDigits);
-      } while (usedNumbers.has(number));
-      usedNumbers.add(number);
-      return { number, prize: getPrize(number, state.winningDigits) };
-    });
+    let attempts = 0;
+    do {
+      attempts++;
+      state.winningDigits = randomDigits(8);
+      const pattern = shuffle(choosePrizePattern(difficultyLevel()));
+      const usedNumbers = new Set();
 
-    const maxPrize = Math.max(...state.tickets.map(t => t.prize));
-    state.bestIndex = state.tickets.findIndex(t => t.prize === maxPrize);
+      state.tickets = pattern.map(matchDigits => {
+        let number;
+        do {
+          number = makeNumberForMatch(state.winningDigits, matchDigits);
+        } while (usedNumbers.has(number));
+        usedNumbers.add(number);
+        return { number, prize: getPrize(number, state.winningDigits) };
+      });
+
+      const prizes = state.tickets.map(t => t.prize);
+      const maxPrize = Math.max(...prizes);
+      const maxCount = prizes.filter(p => p === maxPrize).length;
+      const uniquePrizeCount = new Set(prizes).size;
+
+      if (maxCount === 1 && uniquePrizeCount === 3) {
+        state.bestIndex = prizes.indexOf(maxPrize);
+        break;
+      }
+    } while (attempts < 50);
+
     renderQuestion();
   }
 
@@ -766,17 +792,34 @@
     });
   }
 
+  function getComboBonusRate(combo) {
+    if (combo >= 10) return 1.00; // +100%
+    if (combo >= 7) return 0.65;  // +65%
+    if (combo >= 5) return 0.40;  // +40%
+    if (combo >= 3) return 0.20;  // +20%
+    return 0;
+  }
+
   function chooseTicket(index) {
     if (locked || state.timeLeft <= 0) return;
     locked = true;
     state.answered++;
 
     const isCorrect = index === state.bestIndex;
+    let basePrize = 0;
+    let comboBonus = 0;
+
     if (isCorrect) {
       state.correct++;
       state.combo++;
       state.maxCombo = Math.max(state.maxCombo, state.combo);
-      state.totalPrize += state.tickets[index].prize;
+
+      basePrize = state.tickets[index].prize;
+      const bonusRate = getComboBonusRate(state.combo);
+      comboBonus = Math.round(basePrize * bonusRate);
+
+      state.totalPrize += basePrize + comboBonus;
+      state.comboBonusTotal += comboBonus;
     } else {
       state.combo = 0;
     }
@@ -791,7 +834,7 @@
     });
 
     updateStats();
-    showFeedback(isCorrect, state.tickets[state.bestIndex].prize);
+    showFeedback(isCorrect, state.tickets[state.bestIndex].prize, comboBonus);
     if (isCorrect) showComboMilestone();
 
     setTimeout(() => {
@@ -799,11 +842,19 @@
     }, 760);
   }
 
-  function showFeedback(ok, bestPrize) {
+  function showFeedback(ok, bestPrize, comboBonus = 0) {
     const el = $("feedback");
     el.className = `feedback ${ok ? "ok" : "no"} show`;
-    el.textContent = ok ? `答對了！＋${formatMoney(bestPrize)}` : `再仔細看一眼！`;
-    setTimeout(() => el.classList.remove("show"), 620);
+
+    if (ok) {
+      el.textContent = comboBonus > 0
+        ? `答對！${formatMoney(bestPrize)}＋連擊獎勵 ${formatMoney(comboBonus)}`
+        : `答對了！＋${formatMoney(bestPrize)}`;
+    } else {
+      el.textContent = `再仔細看一眼！`;
+    }
+
+    setTimeout(() => el.classList.remove("show"), 760);
   }
 
   function showComboMilestone() {
@@ -868,6 +919,7 @@
     $("finalCorrect").textContent = state.correct;
     $("finalAccuracy").textContent = accuracy.toFixed(1) + "%";
     $("finalCombo").textContent = state.maxCombo;
+    $("finalBonus").textContent = formatMoney(state.comboBonusTotal);
     $("finalPrize").textContent = formatMoney(state.totalPrize);
     $("rank").textContent = rankName(accuracy);
     showScreen("result");
