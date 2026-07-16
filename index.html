@@ -915,6 +915,219 @@
       #resultScreen .result-item small,#resultScreen .result-item strong{grid-column:1}
     }
 
+  
+    /* 結算頁：參考使用者截圖排版，沿用原遊戲奶油／藍／橘配色 */
+    #resultScreen{
+      height:var(--app-height,100dvh);
+      min-height:0;
+      overflow:hidden;
+      padding:0;
+      background:
+        radial-gradient(circle at 50% 12%,rgba(255,255,255,.95),transparent 28%),
+        linear-gradient(180deg,#fffaf0 0%,#fff2d3 100%);
+      color:var(--ink);
+      -webkit-text-size-adjust:100%;
+      text-size-adjust:100%;
+    }
+    #resultScreen.active{
+      display:grid;
+      grid-template-rows:minmax(0,1fr) auto;
+    }
+    .result-content{
+      min-height:0;
+      width:100%;
+      max-width:520px;
+      margin:0 auto;
+      padding:clamp(14px,2.4vh,26px) 14px 8px;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      gap:clamp(7px,1.2vh,13px);
+      overflow:hidden;
+    }
+    .result-trophy{
+      width:clamp(90px,24vw,128px);
+      aspect-ratio:1;
+      border-radius:28%;
+      display:grid;
+      place-items:center;
+      font-size:clamp(46px,12vw,68px);
+      background:linear-gradient(145deg,#ffd467,#f7941d);
+      box-shadow:0 12px 28px rgba(247,148,29,.26);
+      transform:rotate(-2deg);
+      flex:none;
+    }
+    .result-title{
+      font-size:clamp(30px,8.2vw,48px);
+      font-weight:1000;
+      line-height:1;
+      letter-spacing:.5px;
+      color:var(--ink);
+      white-space:nowrap;
+    }
+    #resultScreen .rank{
+      margin:0;
+      font-size:clamp(24px,6.5vw,36px);
+      font-weight:1000;
+      line-height:1;
+      color:var(--blue);
+      white-space:nowrap;
+    }
+    .result-panel{
+      width:100%;
+      min-height:0;
+      padding:clamp(14px,2.2vh,22px);
+      border-radius:clamp(22px,5vw,30px);
+      background:rgba(255,255,255,.92);
+      box-shadow:0 16px 34px rgba(80,59,25,.14);
+      display:flex;
+      flex-direction:column;
+      gap:clamp(10px,1.5vh,16px);
+      overflow:hidden;
+    }
+    #resultScreen .result-grid{
+      display:grid;
+      grid-template-columns:repeat(2,minmax(0,1fr));
+      gap:clamp(9px,1.4vh,14px);
+    }
+    #resultScreen .result-item{
+      min-width:0;
+      min-height:clamp(86px,12vh,126px);
+      border-radius:clamp(18px,4vw,24px);
+      background:linear-gradient(180deg,#fffaf0,#fff3d8);
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      padding:8px;
+      border:1px solid rgba(247,148,29,.08);
+    }
+    #resultScreen .result-item small,
+    .result-total small{
+      color:var(--muted);
+      font-size:clamp(13px,3.6vw,18px);
+      font-weight:900;
+      line-height:1.1;
+      white-space:nowrap;
+    }
+    #resultScreen .result-item strong{
+      margin-top:6px;
+      color:var(--ink);
+      font-size:clamp(30px,8vw,46px);
+      line-height:1;
+      font-weight:1000;
+      white-space:nowrap;
+    }
+    .result-total{
+      min-height:clamp(92px,13vh,138px);
+      border-radius:clamp(18px,4vw,24px);
+      background:linear-gradient(135deg,#fff0b9,#ffd979);
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      padding:10px;
+      overflow:hidden;
+    }
+    .result-total strong{
+      margin-top:7px;
+      color:#bf6600;
+      font-size:clamp(36px,10vw,58px);
+      font-weight:1000;
+      line-height:1;
+      white-space:nowrap;
+      max-width:100%;
+      overflow:hidden;
+      text-overflow:ellipsis;
+    }
+    .result-bonus{
+      min-height:clamp(38px,5.4vh,50px);
+      border-radius:15px;
+      background:#eef6ff;
+      border:1px solid rgba(79,140,201,.18);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:8px;
+      color:var(--blue);
+      font-size:clamp(13px,3.6vw,18px);
+      font-weight:900;
+      white-space:nowrap;
+    }
+    .result-bonus strong{
+      color:var(--orange);
+      font-size:1.15em;
+    }
+    .result-action{
+      width:100%;
+      flex:none;
+      padding:10px 14px calc(12px + env(safe-area-inset-bottom));
+      background:
+        linear-gradient(180deg,rgba(255,242,211,0),rgba(255,242,211,.96) 26%,#fff2d3 100%);
+      display:flex;
+      justify-content:center;
+      position:relative;
+      z-index:20;
+    }
+    .result-restart{
+      width:min(100%,420px);
+      min-height:clamp(56px,8vh,70px);
+      border:0;
+      border-radius:20px;
+      background:linear-gradient(135deg,var(--orange),#ffb43c);
+      color:#fff;
+      font-size:clamp(22px,6vw,30px);
+      font-weight:1000;
+      box-shadow:0 8px 0 #d77808,0 14px 24px rgba(247,148,29,.28);
+      cursor:pointer;
+      white-space:nowrap;
+    }
+    .result-restart:active{
+      transform:translateY(5px);
+      box-shadow:0 3px 0 #d77808,0 7px 14px rgba(247,148,29,.25);
+    }
+
+    @media (max-height:760px){
+      .result-content{padding-top:10px;gap:5px}
+      .result-trophy{width:78px;font-size:40px}
+      .result-title{font-size:28px}
+      #resultScreen .rank{font-size:22px}
+      .result-panel{padding:11px;gap:8px}
+      #resultScreen .result-grid{gap:7px}
+      #resultScreen .result-item{min-height:68px}
+      #resultScreen .result-item small,
+      .result-total small{font-size:12px}
+      #resultScreen .result-item strong{font-size:27px;margin-top:4px}
+      .result-total{min-height:72px}
+      .result-total strong{font-size:34px;margin-top:4px}
+      .result-bonus{min-height:32px;font-size:12px}
+      .result-restart{min-height:52px;font-size:21px}
+    }
+    @media (max-height:640px){
+      .result-trophy{width:64px;font-size:33px;border-radius:22%}
+      .result-title{font-size:24px}
+      #resultScreen .rank{font-size:19px}
+      .result-panel{padding:8px;gap:6px}
+      #resultScreen .result-item{min-height:56px;border-radius:14px}
+      #resultScreen .result-item small,
+      .result-total small{font-size:10px}
+      #resultScreen .result-item strong{font-size:22px}
+      .result-total{min-height:60px;border-radius:14px}
+      .result-total strong{font-size:29px}
+      .result-bonus{min-height:28px;font-size:10px}
+      .result-action{padding-top:6px}
+      .result-restart{min-height:46px;font-size:18px}
+    }
+    @media (max-width:340px){
+      .result-content{padding-left:8px;padding-right:8px}
+      .result-panel{padding:8px}
+      #resultScreen .result-item small,
+      .result-total small{font-size:10px}
+      #resultScreen .result-item strong{font-size:22px}
+      .result-total strong{font-size:28px}
+    }
+
   </style>
 </head>
 <body>
@@ -958,51 +1171,43 @@
 
     <section id="resultScreen" class="screen">
       <div class="result-content">
-        <div class="result-celebration" aria-hidden="true">
-          <span>✦</span><span>●</span><span>✧</span><span>◆</span><span>✦</span>
-        </div>
+        <div class="result-trophy">🏆</div>
+        <div class="result-title">對獎完成！</div>
+        <div id="rank" class="rank">👑 發票之神</div>
 
-        <div class="result-title">挑戰完成！</div>
-        <div id="rank" class="rank">🏆 發票神探</div>
-
-        <div class="result-board">
-          <div class="prize-ribbon">本局累積中獎金額</div>
-          <div id="finalPrize" class="final-prize">$0</div>
-
+        <div class="result-panel">
           <div class="result-grid">
             <div class="result-item">
-              <span class="result-icon">📋</span>
               <small>完成題數</small>
-              <strong><span id="finalAnswered">0</span><em>題</em></strong>
+              <strong id="finalAnswered">0</strong>
             </div>
             <div class="result-item">
-              <span class="result-icon">🎯</span>
               <small>答對題數</small>
-              <strong><span id="finalCorrect">0</span><em>題</em></strong>
+              <strong id="finalCorrect">0</strong>
             </div>
             <div class="result-item">
-              <span class="result-icon">◔</span>
               <small>正確率</small>
               <strong id="finalAccuracy">0%</strong>
             </div>
             <div class="result-item">
-              <span class="result-icon">🔥</span>
               <small>最高連擊</small>
-              <strong><span id="finalCombo">0</span><em>連擊</em></strong>
+              <strong id="finalCombo">0</strong>
             </div>
           </div>
 
-          <div class="bonus-row">
-            <span>⭐ 連擊加碼獎金</span>
-            <strong id="finalBonus">+$0</strong>
+          <div class="result-total">
+            <small>累積虛擬中獎金額</small>
+            <strong id="finalPrize">$0</strong>
+          </div>
+
+          <div class="result-bonus">
+            連擊加碼 <strong id="finalBonus">+$0</strong>
           </div>
         </div>
       </div>
 
       <div class="result-action">
-        <button id="restartBtn" class="result-restart">
-          <span aria-hidden="true">↻</span> 再玩一次
-        </button>
+        <button id="restartBtn" class="result-restart">再玩一次</button>
       </div>
     </section>
   </main>
