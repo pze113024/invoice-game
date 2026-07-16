@@ -54,26 +54,87 @@
     @keyframes pulse{50%{transform:scale(1.06)}}
     .progress{height:8px;background:#eadfce;border-radius:99px;overflow:hidden;margin:0 4px 12px}
     .progress i{display:block;height:100%;width:100%;background:linear-gradient(90deg,var(--yellow),var(--orange));transition:width .25s linear}
-    .draw-card{background:linear-gradient(145deg,#3b78b4,var(--blue));color:white;border-radius:22px;padding:18px 20px;text-align:center;
-      box-shadow:var(--shadow);margin:0 2px 16px;position:relative;overflow:hidden}
+    .draw-card{background:linear-gradient(145deg,#2f73b8,var(--blue));color:white;border-radius:28px;padding:24px 20px;text-align:center;
+      box-shadow:var(--shadow);margin:0 2px 20px;position:relative;overflow:hidden}
     .draw-card::after{content:"";position:absolute;width:130px;height:130px;border:24px solid rgba(255,255,255,.08);border-radius:50%;right:-50px;top:-55px}
     .draw-label{font-size:13px;font-weight:800;letter-spacing:2px;opacity:.85}
-    .draw-number{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:clamp(28px,8vw,38px);font-weight:900;letter-spacing:1.5px;margin-top:5px}
-    .prompt{text-align:center;font-weight:900;font-size:18px;margin:2px 0 13px}
-    .tickets{display:grid;gap:12px;padding:0 2px 20px}
+    .draw-number{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:clamp(34px,9vw,48px);font-weight:1000;letter-spacing:1.5px;margin-top:7px}
+    .prompt{text-align:center;font-weight:1000;font-size:clamp(20px,5vw,27px);margin:4px 0 16px;letter-spacing:.5px}
+    .tickets{display:grid;gap:14px;padding:0 2px 22px}
     .ticket{width:100%;border:0;background:transparent;padding:0;cursor:pointer;text-align:left}
     .ticket:disabled{cursor:default}
-    .paper{background:var(--paper);border:1.5px solid #e6dccb;border-radius:16px;box-shadow:0 8px 18px rgba(76,58,28,.09);padding:14px 16px;
-      position:relative;overflow:hidden;transition:.16s ease}
+    .paper{
+      background:linear-gradient(180deg,#fffefa 0%,#fffaf1 100%);
+      border:1.5px solid #ead6b5;
+      border-radius:20px;
+      box-shadow:0 9px 22px rgba(85,63,28,.10);
+      padding:26px 22px 20px;
+      position:relative;
+      overflow:hidden;
+      transition:.16s ease
+    }
+    .paper::after{
+      content:"";
+      position:absolute;
+      left:16px;
+      right:16px;
+      bottom:-1px;
+      height:10px;
+      background:
+        radial-gradient(circle at 5px 0,#fff3d9 0 5px,transparent 5.5px) 0 0/18px 10px repeat-x;
+      pointer-events:none
+    }
     .ticket:not(:disabled):active .paper{transform:scale(.985)}
-    .paper::before,.paper::after{content:"";position:absolute;top:50%;width:18px;height:18px;border-radius:50%;background:#fff3d9;transform:translateY(-50%)}
-    .paper::before{left:-10px}.paper::after{right:-10px}
-    .ticket-head{display:flex;justify-content:space-between;align-items:center;color:#555;font-size:11px;font-weight:700}
-    .ticket-brand{letter-spacing:2px}
-    .ticket-number{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;text-align:center;font-size:clamp(27px,8vw,36px);font-weight:900;
-      letter-spacing:1px;margin:8px 0 5px;color:#242a38}
-    .ticket-foot{display:flex;justify-content:space-between;color:#777;font-size:10px}
-    .choice-tag{position:absolute;left:0;top:0;background:var(--yellow);font-weight:900;padding:6px 10px;border-radius:0 0 12px 0}
+    .choice-tag{
+      position:absolute;
+      left:0;
+      top:0;
+      min-width:58px;
+      min-height:58px;
+      display:grid;
+      place-items:center;
+      background:linear-gradient(145deg,#ffd66f,#f6c54e);
+      color:#14223a;
+      font-weight:1000;
+      font-size:28px;
+      padding:0 14px;
+      border-radius:0 0 18px 0
+    }
+    .ticket-head{
+      text-align:center;
+      color:#1d2638;
+      font-size:19px;
+      font-weight:900;
+      letter-spacing:2px;
+      margin-bottom:15px
+    }
+    .ticket-rule{
+      border-top:3px dotted #bfa77f;
+      margin:0 0 10px
+    }
+    .ticket-number{
+      font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
+      text-align:center;
+      font-size:clamp(34px,9vw,46px);
+      font-weight:1000;
+      letter-spacing:.5px;
+      margin:9px 0 12px;
+      color:#111d33
+    }
+    .ticket-foot{
+      border-top:3px dotted #bfa77f;
+      padding-top:14px;
+      display:grid;
+      grid-template-columns:1fr auto;
+      gap:14px;
+      align-items:center;
+      color:#1f2a3c;
+      font-size:15px;
+      font-weight:700
+    }
+    .ticket-date{white-space:nowrap}
+    .ticket-amount{white-space:nowrap}
+    .ticket-amount b{color:var(--orange);font-size:23px}
     .ticket.correct .paper{border:3px solid var(--green);background:#effbf5;transform:translateY(-2px)}
     .ticket.wrong .paper{border:3px solid var(--red);background:#fff3f3}
     .ticket.dim .paper{opacity:.62}
@@ -96,7 +157,7 @@
     .rank{font-size:31px;font-weight:1000;color:var(--blue);margin:8px 0 0}
     .secondary{border:2px solid var(--blue);color:var(--blue);background:white;border-radius:16px;min-height:52px;padding:0 25px;font-weight:900;font-size:17px;cursor:pointer}
     .fine{font-size:11px;color:var(--muted);margin-top:17px;line-height:1.5}
-    @media (min-width:700px){.shell{padding-bottom:18px}.tickets{grid-template-columns:repeat(3,1fr)}.ticket-number{font-size:23px}.paper{min-height:150px;display:flex;flex-direction:column;justify-content:center}.ticket-foot{margin-top:auto}}
+    @media (min-width:700px){.shell{padding-bottom:18px}.tickets{grid-template-columns:1fr}.paper{min-height:0}.ticket-number{font-size:46px}}
   </style>
 </head>
 <body>
@@ -289,7 +350,6 @@
 
   function renderQuestion() {
     $("winningNumber").textContent = formatNumber(state.winningDigits);
-    const stores = ["幸福商店", "好日子生活館", "陽光便利店", "日日選物", "小城百貨"];
     const container = $("tickets");
     container.innerHTML = "";
 
@@ -297,17 +357,16 @@
       const button = document.createElement("button");
       button.className = "ticket";
       button.setAttribute("aria-label", `發票${String.fromCharCode(65 + index)}，號碼${formatNumber(ticket.number)}`);
+      const amount = (Math.floor(Math.random()*900)+100).toLocaleString();
       button.innerHTML = `
         <div class="paper">
-          <div class="choice-tag">${String.fromCharCode(65 + index)}</div>
-          <div class="ticket-head">
-            <span class="ticket-brand">電子發票證明聯</span>
-            <span>模擬發票</span>
-          </div>
+          <div class="choice-tag">${index + 1}</div>
+          <div class="ticket-head">電子發票證明聯</div>
+          <div class="ticket-rule"></div>
           <div class="ticket-number">${formatNumber(ticket.number)}</div>
           <div class="ticket-foot">
-            <span>${stores[(state.answered + index) % stores.length]}</span>
-            <span>總計 ${(Math.floor(Math.random()*900)+100).toLocaleString()} 元</span>
+            <span class="ticket-date">2026/07/16&nbsp;&nbsp;09:32</span>
+            <span class="ticket-amount">金額 <b>${amount}</b> 元</span>
           </div>
           <div class="prize-reveal">${formatMoney(ticket.prize)}</div>
         </div>`;
