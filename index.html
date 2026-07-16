@@ -121,6 +121,121 @@
       .choice-tag{min-width:34px;min-height:34px;font-size:17px}
     }
 
+  
+    /* 強制單螢幕遊戲版型：避免卡片內容撐高整頁 */
+    #gameScreen{
+      height:100%;
+      min-height:0;
+      overflow:hidden;
+      display:none;
+    }
+    #gameScreen.active{
+      display:grid;
+      grid-template-rows:auto auto auto auto minmax(0,1fr);
+    }
+    .shell{
+      height:var(--app-height,100dvh);
+      min-height:0;
+      overflow:hidden;
+    }
+    .topbar{
+      position:relative;
+      flex:none;
+    }
+    .tickets{
+      min-height:0;
+      height:100%;
+      overflow:hidden;
+      grid-template-rows:repeat(3,minmax(0,1fr));
+      align-content:stretch;
+    }
+    .ticket{
+      min-height:0;
+      height:100%;
+      overflow:hidden;
+    }
+    .paper{
+      min-height:0 !important;
+      height:100%;
+      max-height:100%;
+      overflow:hidden;
+      padding:8px 14px 7px;
+      border-radius:14px;
+    }
+    .choice-tag{
+      min-width:34px;
+      min-height:34px;
+      font-size:17px;
+      border-radius:0 0 11px 0;
+    }
+    .ticket-head{
+      font-size:12px;
+      line-height:1.05;
+      margin:0 0 3px;
+    }
+    .ticket-rule{
+      border-top-width:2px;
+      margin:0 0 2px;
+    }
+    .ticket-number{
+      font-size:clamp(22px,6.7vw,31px);
+      line-height:1;
+      margin:2px 0 3px;
+    }
+    .ticket-foot{
+      padding-top:4px;
+      font-size:9.5px;
+      line-height:1;
+      gap:5px;
+    }
+    .ticket-amount b{
+      font-size:13px;
+    }
+    .prize-reveal{
+      position:absolute;
+      right:8px;
+      top:7px;
+      margin:0;
+      padding:3px 7px;
+      border-radius:8px;
+      background:rgba(255,255,255,.92);
+      font-size:11px;
+    }
+    .ticket.revealed .prize-reveal{
+      display:block;
+    }
+
+    @media (max-height:850px){
+      .topbar{padding:2px 2px 3px}
+      .stat{padding:4px 7px}
+      .stat small{font-size:9px}
+      .stat strong{font-size:14px}
+      .timer{width:54px;height:54px}
+      .timer::before{inset:5px}
+      .timer span{font-size:16px}
+      .progress{height:4px;margin-bottom:5px}
+      .draw-card{padding:8px 13px;margin-bottom:4px;border-radius:16px}
+      .draw-label{font-size:9px}
+      .draw-number{font-size:26px;margin-top:0}
+      .prompt{font-size:15px;line-height:1.1;margin:1px 0 4px}
+      .tickets{gap:5px;padding-bottom:3px}
+    }
+
+    @media (max-height:700px){
+      .stat small{display:none}
+      .topbar{grid-template-columns:1fr 50px 1fr}
+      .timer{width:48px;height:48px}
+      .draw-card{padding:6px 12px}
+      .draw-label{display:none}
+      .draw-number{font-size:23px}
+      .prompt{font-size:14px}
+      .paper{padding:6px 12px 5px}
+      .ticket-head{font-size:10px}
+      .ticket-number{font-size:21px}
+      .ticket-foot{font-size:8.5px}
+      .ticket-amount b{font-size:11px}
+    }
+
   </style>
 </head>
 <body>
@@ -449,5 +564,22 @@
   $("restartBtn").addEventListener("click", startGame);
 })();
 </script>
+
+<script>
+(function(){
+  function setAppHeight(){
+    var h = window.visualViewport ? window.visualViewport.height : window.innerHeight;
+    document.documentElement.style.setProperty('--app-height', h + 'px');
+  }
+  setAppHeight();
+  window.addEventListener('resize', setAppHeight, {passive:true});
+  window.addEventListener('orientationchange', setAppHeight, {passive:true});
+  if(window.visualViewport){
+    window.visualViewport.addEventListener('resize', setAppHeight, {passive:true});
+    window.visualViewport.addEventListener('scroll', setAppHeight, {passive:true});
+  }
+})();
+</script>
+
 </body>
 </html>
