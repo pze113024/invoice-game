@@ -550,24 +550,117 @@
       }
     }
 
+  
+    /* 字體放大相容：開始畫面可捲動，開始按鈕固定在底部 */
+    #startScreen{
+      height:var(--app-height,100dvh);
+      min-height:0;
+      overflow:hidden;
+      padding:0;
+      display:none;
+    }
+    #startScreen.active{
+      display:grid;
+      grid-template-rows:minmax(0,1fr) auto;
+      align-items:stretch;
+      justify-items:stretch;
+      text-align:center;
+    }
+    .start-scroll{
+      min-height:0;
+      overflow-y:auto;
+      -webkit-overflow-scrolling:touch;
+      padding:24px 10px 18px;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:flex-start;
+    }
+    .start-action{
+      position:sticky;
+      bottom:0;
+      z-index:10;
+      padding:12px 12px calc(12px + env(safe-area-inset-bottom));
+      background:
+        linear-gradient(180deg,rgba(255,247,232,0),rgba(255,247,232,.96) 24%,#fff7e8 100%);
+      text-align:center;
+    }
+    .start-action .primary{
+      width:min(100%,420px);
+      min-height:56px;
+      font-size:clamp(18px,5vw,22px);
+    }
+    .start-action .fine{
+      margin-top:12px;
+    }
+    #startScreen .logo{
+      flex:none;
+    }
+    #startScreen h1{
+      font-size:clamp(30px,9vw,44px);
+    }
+    #startScreen .subtitle{
+      font-size:clamp(17px,5vw,21px);
+    }
+    #startScreen .intro{
+      font-size:clamp(14px,4.2vw,17px);
+    }
+    #startScreen .rule-card{
+      font-size:clamp(13px,4vw,16px);
+      margin-bottom:0;
+    }
+
+    @media (max-height:700px){
+      .start-scroll{
+        padding-top:14px;
+        padding-bottom:10px;
+      }
+      #startScreen .logo{
+        width:76px;
+        height:76px;
+        font-size:38px;
+        margin-bottom:14px;
+      }
+      #startScreen h1{
+        margin-bottom:6px;
+      }
+      #startScreen .subtitle{
+        margin-bottom:10px;
+      }
+      #startScreen .intro{
+        margin-bottom:14px;
+        line-height:1.55;
+      }
+      #startScreen .rule-card{
+        padding:14px;
+      }
+      #startScreen .rule-card div{
+        margin:6px 0;
+      }
+    }
+
   </style>
 </head>
 <body>
 <div class="app">
   <main class="shell">
-    <section id="startScreen" class="screen active center">
-      <div class="logo">🧾</div>
-      <h1>發票神探</h1>
-      <div class="subtitle">1分鐘對獎挑戰</div>
-      <p class="intro">重溫一張一張核對發票號碼的期待感。每題從三張發票中，選出獎金最高的一張！</p>
-      <div class="rule-card">
-        <div><b>⏱️</b><span>限時60秒，時間到立即結算。</span></div>
-        <div><b>🔎</b><span>每題至少一張中獎，且只有一張獎金最高。</span></div>
-        <div><b>🔥</b><span>連續答對可累積連擊；連擊越高，獎金加碼越多。</span></div>
-        <div><b>💰</b><span>獎金依頭獎末碼規則：20萬、4萬、1萬、4千、1千、200元。</span></div>
+    <section id="startScreen" class="screen active">
+      <div class="start-scroll">
+        <div class="logo">🧾</div>
+        <h1>發票神探</h1>
+        <div class="subtitle">1分鐘對獎挑戰</div>
+        <p class="intro">重溫一張一張核對發票號碼的期待感。每題從三張發票中，選出獎金最高的一張！</p>
+        <div class="rule-card">
+          <div><b>⏱️</b><span>限時60秒，時間到立即結算。</span></div>
+          <div><b>🔎</b><span>每題至少一張中獎，且只有一張獎金最高。</span></div>
+          <div><b>🔥</b><span>連續答對可累積連擊；連擊越高，獎金加碼越多。</span></div>
+          <div><b>💰</b><span>獎金依頭獎末碼規則：20萬、4萬、1萬、4千、1千、200元。</span></div>
+        </div>
       </div>
-      <button id="startBtn" class="primary">開始對獎</button>
-      <div class="fine">本遊戲號碼及獎金均為模擬內容，不具實際兌領效力。</div>
+      <div class="start-action">
+        <button id="startBtn" class="primary">開始對獎</button>
+        <div class="fine">本遊戲號碼及獎金均為模擬內容，不具實際兌領效力。</div>
+      </div>
     </section>
 
     <section id="gameScreen" class="screen">
